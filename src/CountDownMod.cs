@@ -3,30 +3,16 @@ using KSP.Game;
 using SpaceWarp.API.Mods;
 using Screen = UnityEngine.Screen;
 using KSP.UI.Binding;
-using KSP.Sim.impl;
-using KSP.Sim;
-using KSP.Sim.Definitions;
-using KSP.OAB;
-using KSP.Modules;
-using Shapes;
 using SpaceWarp.API.Assets;
 using SpaceWarp;
 using BepInEx;
 using SpaceWarp.API.UI.Appbar;
 using KSP.Messages;
-using Steamworks;
-using Unity.Mathematics;
-using KSP.Messages.PropertyWatchers;
-using KSP.Sim.State;
-using KSP;
-using System.IO.Ports;
-using UnityEngine.UI;
-using UnityEngine.UIElements;
 
 namespace CountDown;
 [BepInPlugin("com.shadowdev.countdown", "Count Down", "0.0.1")]
 [BepInDependency(SpaceWarpPlugin.ModGuid, SpaceWarpPlugin.ModVer)]
-public class SuicideBurnMod : BaseSpaceWarpPlugin
+public class CountDownMod : BaseSpaceWarpPlugin
 {
     private int windowWidth = 300;
     private int windowHeight = 700;
@@ -61,7 +47,7 @@ public class SuicideBurnMod : BaseSpaceWarpPlugin
     public void CountDownstarted(MessageCenterMessage message)
     {
         showUI = true;
-        StartTimer = GameManager.Instance.Game.ViewController.universalTime + 13.6;
+        StartTimer = GameManager.Instance.Game.ViewController.universalTime + 13.53;
     }
     public void CountDownstopped(MessageCenterMessage message)
     {
@@ -93,7 +79,7 @@ public class SuicideBurnMod : BaseSpaceWarpPlugin
     {
         Timer = (StartTimer - GameManager.Instance.Game.ViewController.universalTime);
         boxStyle = GUI.skin.GetStyle("Box");
-        if(Timer < 0)
+        if(Timer < -3)
         {
             showUI = false;
             Timer = 0;
@@ -108,9 +94,13 @@ public class SuicideBurnMod : BaseSpaceWarpPlugin
         {
             GUILayout.Label($"<color=green><b>T- {Timer}</b></color>", new GUIStyle(GUI.skin.button) { fontSize = 50, });
         }
-        else
+        if (Timer > 0)
         {
             GUILayout.Label($"<color=red><b>T- {Timer}</b></color>", new GUIStyle(GUI.skin.button) { fontSize = 50, });
+        }
+        if (Timer < 0)
+        {
+            GUILayout.Label($"<color=red><b>T+ {-Timer}</b></color>", new GUIStyle(GUI.skin.button) { fontSize = 50, });
         }
         GUILayout.EndHorizontal();
         GUILayout.EndVertical();

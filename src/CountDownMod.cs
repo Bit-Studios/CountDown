@@ -78,6 +78,7 @@ public class CountDownMod : BaseSpaceWarpPlugin
     private void FillWindow(int windowID)
     {
         Timer = (StartTimer - GameManager.Instance.Game.ViewController.universalTime);
+        Timer = float.Parse(Timer.ToString().Remove(4));
         boxStyle = GUI.skin.GetStyle("Box");
         if(Timer < -3)
         {
